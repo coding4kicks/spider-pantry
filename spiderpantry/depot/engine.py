@@ -19,11 +19,11 @@ def launch_new_scratch():
 
     # Initial commands must be synchronous
     # Use basecluster template
-    ###cmd = 'starcluster start -c basecluster basecluster'
-    ###p = subprocess.call(cmd, shell=True)
-    ###if p != 0:
-    ###    print "Starcluster failed to start."
-    ###    sys.exit(1)
+    cmd = 'starcluster start -c basecluster basecluster'
+    p = subprocess.call(cmd, shell=True)
+    if p != 0:
+        print "Starcluster failed to start."
+        sys.exit(1)
 
     # Create list of nodes
     instance_list = []
@@ -61,7 +61,7 @@ def init_config(instance_type=None, instance=None):
             'sudo pip install redis',
             'sudo pip install boto'
             'git clone https://coding4kicks:\!6Graham9@github.com/' + \
-            'coding4kicks/parallelspider.git /home/spideradmin/parallelspider'
+            'coding4kicks/spider-pantry.git /home/spideradmin'
             ]
     for cmd in cmd_list:
         if instance_type == 'master':
