@@ -13,12 +13,11 @@ all requirements with a build.depot command
 
 from fabric.api import *
 
+# data handles redis initialization
 import data
-import deploy
-import develop
+
+# engine handles cluster initialization
 import engine
-import server
-import web
 
 
 

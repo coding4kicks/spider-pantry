@@ -14,12 +14,17 @@ import subprocess
 path = os.path.realpath(__file__).partition('spiderdepot')[0]
 
 @fab.task
-def launch_new_scratch():
+def new(type="develop"):
     """Start a spider engine from scratch, not an AMI."""
 
     # Initial commands must be synchronous
-    # Use basecluster template
-    cmd = 'starcluster start -c basecluster basecluster'
+    # Use micro-develop template - default
+    # or micro-deploy template
+    cmd = 'starcluster start -c micro-develop spiderengine'
+    nodes = 1;
+    if type == "deploy":
+        cmd = "starcluster start -c micro-deploy spiderengine"
+        nodes = 10;
     p = subprocess.call(cmd, shell=True)
     if p != 0:
         print "Starcluster failed to start."
@@ -27,7 +32,7 @@ def launch_new_scratch():
 
     # Create list of nodes
     instance_list = []
-    nodes = 1
+    #nodes = 1
     i = 1;
     while i <= nodes:
         if i < 10:
