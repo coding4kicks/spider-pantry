@@ -96,6 +96,10 @@ class SpiderRunner(object):
         if self.config_file:
             with open(self.config_file, 'r') as f:
                 config = json.loads(f.read())
+                if config['crawl_id']:
+                    r.set(config['crawl_id'], json.dumps(config))
+                else:
+                    r.set(self.crawl_id, json.dumps(config))
         else:
             config = json.loads(r.get(self.crawl_id))
         
@@ -163,7 +167,7 @@ class SpiderRunner(object):
         cmd= ('dumbo start {0} -input {1}jobs/{2} '
               '-output {1}out/{3} -file {10}/mrfeynman.py -nummaptasks {4} '
               '-cmdenv PYTHONIOENCODING=utf-8 -param redisInfo=host:{5},'
-              'port:{6},base:{7},maxPages:{8}{9}'
+              'port:{6},base:{7},maxPages:{8}{9} -overwrite yes'
               ).format(_ps_location(), files_location, file_name, 
                        base_path, str(self.max_mappers), 
                        self.redis_info['host'], self.redis_info['port'], 
