@@ -11,7 +11,7 @@ import subprocess
 # Determine path to parallelspider directory.
 # Assumes this file is in spiderdepot or subdirectory,
 # and spiderdepot is 1 level below parallelspider.
-path = os.path.realpath(__file__).partition('spiderdepot')[0]
+path = os.path.realpath(__file__).partition('depot')[0]
 
 @fab.task
 def new(type="develop"):
@@ -116,9 +116,25 @@ def init_config(instance_type=None, instance=None, cluster_name='spiderdev'):
 
 
 @fab.task
+def put(f=None, type='develop'):
+    """Upload a file to the engine."""
+    if file:
+        cluster_name = 'spiderdev';
+        if type == "deploy":
+            cluster_name = 'spiderdeploy'
+        source = path + '/src/' + f
+        dest = '/home/spideradmin/spiderengine/src/'
+        cmd = 'starcluster put ' + cluster_name + ' ' + source + ' ' + dest
+        p = subprocess.call(cmd, shell=True)
+        if p != 0:
+            print 'Command failed: ' + cmd
+            sys.exit(1)
+    else:
+        print "Must specify a file to upload"
+
+@fab.task
 def start(type='develop', args=None):
     """Start an analysis engine."""
-
     
 @fab.task
 def stop(type='local', args=None):

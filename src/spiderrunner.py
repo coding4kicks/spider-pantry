@@ -91,6 +91,7 @@ class SpiderRunner(object):
 
         r = redis.StrictRedis(host=self.redis_info["host"],
                               port=int(self.redis_info["port"]), db=0)
+        print self.config_file
         if self.config_file:
             with open(self.config_file, r) as f:
                 config = json.loads(f.read())
