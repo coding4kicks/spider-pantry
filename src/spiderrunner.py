@@ -61,7 +61,8 @@ class SpiderRunner(object):
             indicate to the Spider Client through Engine Redis when they 
             are complete.
         """
-
+        print 'here'
+        print config_file
         self.site_list = site_list         
         self.redis_info = redis_info      
         self.max_mappers = max_mappers
@@ -372,7 +373,7 @@ def main():
     spider_runner = SpiderRunner(site_list, redis_info, 
                                  max_mappers, max_pages, 
                                  options.crawlInfo, options.psuedo,
-                                 log_info, options.config_file) 
+                                 log_info, False, options.config_file) 
     spider_runner.execute()
 
 if __name__ == "__main__":
