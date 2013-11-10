@@ -41,7 +41,7 @@ class SpiderRunner(object):
     """
 
     def __init__(self, site_list, redis_info, max_mappers, max_pages,
-                 crawl_id, psuedo, log_info, test=False):
+                 crawl_id, psuedo, log_info, test=False, config_file=None):
         """ 
         Initialize inputs
 
@@ -69,6 +69,7 @@ class SpiderRunner(object):
         self.crawl_id = crawl_id
         self.psuedo, self.test = psuedo, test
         self._init_logging(log_info)
+        self.config_file = config_file
 
     def execute(self):
         """
@@ -89,8 +90,12 @@ class SpiderRunner(object):
         """
 
         r = redis.StrictRedis(host=self.redis_info["host"],
-                              port=int(self.redis_info["port"]), db=0)   
-        config = json.loads(r.get(self.crawl_id))
+                              port=int(self.redis_info["port"]), db=0)
+        if self.config_file:
+            with open(self.config_file, r) as f:
+                config = json.loads(f.read())
+        else:
+            config = json.loads(r.get(self.crawl_id))
         
         for site in self.site_list:
 
@@ -308,6 +313,9 @@ def main():
             default='config', dest="crawlInfo", 
             help="Where crawl info is stored in Redis [default: %default]")
     parser.add_option(
+            "-f", "-F", "--file", action="store", dest="config_file", 
+            help="A config file for the crawl")
+    parser.add_option(
             "-m", "-M", "--maxMappers", action="store", 
             default=5, dest="maxMappers", 
             help="Set maximum number of mappers. [default: %default]")
@@ -363,7 +371,7 @@ def main():
     spider_runner = SpiderRunner(site_list, redis_info, 
                                  max_mappers, max_pages, 
                                  options.crawlInfo, options.psuedo,
-                                 log_info) 
+                                 log_info, options.config_file) 
     spider_runner.execute()
 
 if __name__ == "__main__":
