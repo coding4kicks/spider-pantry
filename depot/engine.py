@@ -127,8 +127,17 @@ def stop(type='local', args=None):
 
 # TODO: FIX to pull from github
 @fab.task
-def synch_repo():
-    """Push spider engine components to cluster"""
+def synch(type="develop"):
+    """Synch repo on master"""
+    cluster_name = 'spiderdev';
+    if type == "deploy":
+        cluster_name = 'spiderdeploy'
+    cmd = "starcluster sshmaster " + cluster_name + \
+          " 'cd /home/spideradmin/spiderengine; git pull origin'"
+    p = subprocess.call(cmd, shell=True)
+    if p != 0:
+        print 'Command failed: ' + cmd
+        sys.exit(1)
 
 # Fix to just run tests (just pull with deploy)
 @fab.task
