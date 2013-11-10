@@ -329,16 +329,20 @@ def main():
     (options, args) = parser.parse_args()
 
     if len(args) == 0:
-        parser.error("Must specify list of site URLs")
+        parser.error("Must specify a comma separated list of site URLs")
     if len(args) > 1:
         parser.error("Can only specify 1 input list.")
     site_list = args[0].split(",")
 
     redis_info = {}
-    temp_list = options.redisInfo.split(",")
-    for item in temp_list:
-        key, delimiter, value = item.partition(':')
-        redis_info[key] = value
+    if options.redisInfo:
+        temp_list = options.redisInfo.split(",")
+        for item in temp_list:
+            key, delimiter, value = item.partition(':')
+            redis_info[key] = value
+    else:
+      redis_info['host'] = 'localhost'
+      redis_info['port'] = 6376
 
     max_mappers = int(options.maxMappers)
     if max_mappers < 1:
