@@ -94,7 +94,7 @@ class SpiderRunner(object):
                               port=int(self.redis_info["port"]), db=0)
         print self.config_file
         if self.config_file:
-            with open(self.config_file, r) as f:
+            with open(self.config_file, 'r') as f:
                 config = json.loads(f.read())
         else:
             config = json.loads(r.get(self.crawl_id))
