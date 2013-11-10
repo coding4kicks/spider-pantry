@@ -352,7 +352,7 @@ def main():
             redis_info[key] = value
     else:
       redis_info['host'] = 'localhost'
-      redis_info['port'] = 6376
+      redis_info['port'] = 6379
 
     max_mappers = int(options.maxMappers)
     if max_mappers < 1:
