@@ -124,7 +124,7 @@ class Brain(object):
         key_total = '%s%s_%s' % (self.label['total_count'],
                                  external_bit, "total") 
 
-        mapper_output.append(('filter in mrf', filter_instr)) 
+        #mapper_output.append(('filter in mrf', filter_instr)) 
 
         if filter_instr:
             final_results = {}
@@ -135,15 +135,15 @@ class Brain(object):
                 value = ""
                 for result in results:
                     if 'property' in instr:
-                      value = value + " " + result.get(instr['property'])
+                      value = value + " " + result.get(instr['property']).strip()
                     else:
                         text = result.text
                         tail = result.tail
                         if tail:
                             text = text + " " + tail if text else tail
-                        value = value + " " + text
+                        value = value + " " + text.strip()
                 final_results[key] = value
-            mapper_output.append((self.passed_url, final_results))
+            mapper_output.append((page_link, final_results))
 
         for element in doc.iter(): # Iterate once through the entire document
             

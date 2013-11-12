@@ -89,14 +89,9 @@ class Mapper():
         """
         
 
-
-        # if filter not in filters => no_emit = true in brain.analyze
-        # 
-        #yield 'site', self.site
-        yield 'here', 'hi hi ho'
+        # Instructions to scrape the url.
         url_instr = self.config['url_instr'][self.site]
         url_filters = url_instr['url_filters']
-        yield 'inst', url_filters[0]
 
         r = self.redis # analysis Engine Redis instance
         redis_keys = (new_links, processing, finished, count, temp1, temp2
@@ -143,9 +138,7 @@ class Mapper():
                     if filtr in link:
                         no_emit = False
                         filter_instr = url_instr['filter_instr'][filtr]
-                        yield 'filter inst', filter_instr
 
-            yield "no emit", no_emit
             try: # to process the page information
                 output = brain.analyze(page, link, robots_txt,
                                        external=external, no_emit=no_emit,

@@ -14,9 +14,18 @@
             "selector":"span.ingredient-name"
           },
           {
+            "label":"description",
+            "selector":"span#lblDescription"
+          },
+          {
             "label":"rating",
             "selector":"div.rating-stars meta",
             "property":"content"
+          },
+          {
+            "label":"photo",
+            "selector":"img#imgPhoto",
+            "property":"src"
           }
         ]
       }
