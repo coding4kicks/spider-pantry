@@ -90,9 +90,13 @@ class Mapper():
         
 
 
-        # manulaly remove reducer
         # if filter not in filters => no_emit = true in brain.analyze
         # 
+        #yield 'site', self.site
+        yield 'here', 'hi hi ho'
+        url_instr = self.config['url_instr'][self.site]
+        url_filters = url_instr['url_filters']
+        yield 'inst', url_filters[0]
 
         r = self.redis # analysis Engine Redis instance
         redis_keys = (new_links, processing, finished, count, temp1, temp2
@@ -123,14 +127,28 @@ class Mapper():
                     yield 'zmsg__error', (msg, 1)
                     continue
             except Exception as e:
+                # TODO: handle schema change http -> https which results in
+                # this error.
                 msg = ('Unable to download and parse: {} - Exception: {} '
                        '- Exception args: {}').format(link, type(e), e)
                 yield 'zmsg__error', (msg, 1)
                 continue
 
+            no_emit = False #assume want to emit
+            # if url_filters and filter not in link => don't emit
+            if url_filters:
+                no_emit = True
+                for filtr in url_filters:
+                    if filtr in link:
+                        no_emit = False
+                        filter_instr = url_instr['filter_instr'][filtr]
+                        yield 'filter inst', filter_instr
+
+            yield "no emit", no_emit
             try: # to process the page information
                 output = brain.analyze(page, link, robots_txt,
-                                       external=external)
+                                       external=external, no_emit=no_emit,
+                                       filter_instr=filter_instr)
                 links = brain.on_site_links
                 if self.external_analysis:
                     links.extend(_add_external_links(brain))
@@ -147,7 +165,8 @@ class Mapper():
             except Exception as e:
                 msg = ('Unable to emit info for: {} - Exception: {} '
                        '- Exception args: {}').format(link, type(e), e)
-                yield 'zmsg__error', (msg, 1)
+                if not no_emit:
+                    yield 'zmsg__error', (msg, 1)
                 continue
 
             try: # to finish processing the link and to add new links

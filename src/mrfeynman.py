@@ -77,7 +77,7 @@ class Brain(object):
 ### Mapper
 ###############################################################################
     def analyze(self, doc, page_link, robots_txt,
-                external=False, no_emit=False):
+                external=False, no_emit=False, filter_instr=None):
         """ 
         Analyze a parsed document, returning key,value pairs (a mapper).
 

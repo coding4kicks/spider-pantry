@@ -1,4 +1,12 @@
 {
-  "crawl_id": "recipe_tester"
+  "crawl_id": "recipe_tester",
+  "url_instr": {
+    "http://www.cnn.com/2013/11/11/world/asia/typhoon-haiyan/index.html": {
+      "url_filters": ["world"],
+      "filter_instr": {
+        "world": "world_instr"
+      }
+    }
+  }
 }
 
