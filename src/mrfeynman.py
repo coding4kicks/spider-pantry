@@ -57,8 +57,9 @@ class Brain(object):
         self._set_tag_types()
         self.additional_info = False
 
-        # Mark summary as false - later switch to true and false pased on cnfg
-        self.summary = True
+        # Mark summary as false when scraping and not doing analysis
+        # TODO: pass in cnfg
+        self.summary = False
 
         # Labels for various processing types - append to start of key
         # All labelels are 4 characters.  A tag for external or internal is
@@ -148,20 +149,22 @@ class Brain(object):
             if no_emit: continue # Skip rest if not analyzing page
 
             # Analyze tag count for summary
-            key_tag = '%s%s_%s' % (self.label['tag_count'], external_bit, tag) 
-            mapper_output.append((key_tag, 1))
+            if self.summary:
+                key_tag = '%s%s_%s' % (self.label['tag_count'], external_bit, tag) 
+                mapper_output.append((key_tag, 1))
 
             if not words: continue # Skip analysis if no words to analyze
 
             # Analyze total word count for summary - includes stop words
-            total = len(words)
-            if total > 0:
-                if self.additional_info:
-                    value = (key_total, (total, (page_link, total), 
-                                        (tag, total)))
-                else:
-                    value = (key_total, total)
-                mapper_output.append(value)
+            if self.summary:
+                total = len(words)
+                if total > 0:
+                    if self.additional_info:
+                        value = (key_total, (total, (page_link, total), 
+                                            (tag, total)))
+                    else:
+                        value = (key_total, total)
+                    mapper_output.append(value)
  
             if self.visible_text_request:
                 if tag in self.visible_text_tags:
@@ -202,9 +205,9 @@ class Brain(object):
         
         if no_emit: return # not analyzing page, return with new links
 
-        #if self.summary:
-        mapper_output.extend(self._analyze_summary_link_info(
-            all_links, ext_links, external_bit))
+        if self.summary:
+            mapper_output.extend(self._analyze_summary_link_info(
+                all_links, ext_links, external_bit))
 
         if self.all_links_request: 
             mapper_output.extend(self._analyze_links(
