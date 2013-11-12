@@ -127,18 +127,20 @@ class Brain(object):
         mapper_output.append(('filter in mrf', filter_instr)) 
 
         if filter_instr:
+            final_results = {}
             for instr in filter_instr:
                 selector = lxml.cssselect.CSSSelector(instr['selector'])
                 key = instr['label']
-                #result = selector(doc)[0]
-                #text = result.text
-                #tail = result.tail
-                #if tail:
-                #  text = text + " " + tail if text else tail
-                #value = text
-                mapper_output.append(('results', 'results'))
-                mapper_output.append(('key', key))
-                mapper_output.append(('filter instr', instr))
+                results = selector(doc)
+                value = ""
+                for result in results:
+                    text = result.text
+                    tail = result.tail
+                    if tail:
+                        text = text + " " + tail if text else tail
+                    value = value + text
+                final_results[key] = value
+            mapper_output.append((self.passed_url, final_results))
 
         for element in doc.iter(): # Iterate once through the entire document
             

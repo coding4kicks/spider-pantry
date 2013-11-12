@@ -6,7 +6,7 @@
       "filter_instr": {
         "world": [
           {
-            "label":"world_instr",
+            "label":"second_para",
             "selector":"p.cnn_storypgraph2"
           }
         ]
