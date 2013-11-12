@@ -88,6 +88,14 @@ class Mapper():
                          or an error message.
         """
         
+
+
+        # manulaly remove reducer
+        # if filter not in filters => no_emit = true in brain.analyze
+        # 
+
+
+
         r = self.redis # analysis Engine Redis instance
         redis_keys = (new_links, processing, finished, count, temp1, temp2
                 ) = _create_redis_keys(self.base)

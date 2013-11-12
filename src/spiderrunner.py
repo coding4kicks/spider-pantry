@@ -61,8 +61,6 @@ class SpiderRunner(object):
             indicate to the Spider Client through Engine Redis when they 
             are complete.
         """
-        print 'here'
-        print config_file
         self.site_list = site_list         
         self.redis_info = redis_info      
         self.max_mappers = max_mappers
@@ -92,7 +90,6 @@ class SpiderRunner(object):
 
         r = redis.StrictRedis(host=self.redis_info["host"],
                               port=int(self.redis_info["port"]), db=0)
-        print self.config_file
         if self.config_file:
             with open(self.config_file, 'r') as f:
                 config = json.loads(f.read())

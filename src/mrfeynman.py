@@ -57,6 +57,9 @@ class Brain(object):
         self._set_tag_types()
         self.additional_info = False
 
+        # Mark summary as false - later switch to true and false pased on cnfg
+        self.summary = True
+
         # Labels for various processing types - append to start of key
         # All labelels are 4 characters.  A tag for external or internal is
         # then appended, followed by an underscore. i.e. texti_
@@ -199,6 +202,7 @@ class Brain(object):
         
         if no_emit: return # not analyzing page, return with new links
 
+        #if self.summary:
         mapper_output.extend(self._analyze_summary_link_info(
             all_links, ext_links, external_bit))
 
