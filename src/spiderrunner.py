@@ -117,6 +117,9 @@ class SpiderRunner(object):
             links.append(site) # make sure main page is analyzed
             links = list(set(links)) # remove duplicates
             base = ('{}::{}').format(site, config['crawl_id'])
+            redis_keys = (new_links, processing, finished, count, temp1, temp2
+                ) = _create_redis_keys(base)
+            _zero_redis(r, redis_keys)
             _batch_add_links_to_new(r, links, base)
 
             file_info = self._create_input_file(base)
@@ -202,6 +205,21 @@ def _init_robot_txt(site_url, test):
     except:
         robots_txt = None
     return robots_txt
+
+def _create_redis_keys(base):
+    """Create keys to access data in Engine Redis."""
+    new_links = base + "::new_links"       
+    processing = base + "::processing"      # links being processed
+    finished = base + "::finished"          # links done being processed
+    count = base + "::count"                # total pages scraped
+    temp1 = base + "::temp1"                # temp keys for set ops
+    temp2 = base + "::temp2"
+    return (new_links, processing, finished, count, temp1, temp2)
+
+def _zero_redis(r, keys):
+    """Zero out redis when if using same key"""
+    for key in keys:
+        r.delete(key)
 
 def _parse(link, test):
     """Download and parse page depending upon scheme."""

@@ -94,7 +94,7 @@ class Mapper():
         # if filter not in filters => no_emit = true in brain.analyze
         # 
 
-
+        yield 'something', 'something'
 
         r = self.redis # analysis Engine Redis instance
         redis_keys = (new_links, processing, finished, count, temp1, temp2
@@ -105,8 +105,13 @@ class Mapper():
 
         while True: # Here we go... yee hah!
 
+            yield 'here', 'heeeeeeee'
+
             if _no_more_to_scrape(r, max_pages, new_links, count):
+                yield 'breaking', 'breaking'
                 break
+
+            yield 'made', 'it'
 
             try: # to pop a link and add it to processing
                 link = r.spop(new_links)
@@ -116,7 +121,9 @@ class Mapper():
                        '- Exception args: {}').format(type(e), e)
                 yield 'zmsg__error', (msg, 1)
                 break
-            
+
+            yield 'link', 'link'
+
             try: # to download and parse the page
                 external, link = _check_if_external(link)
                 page = _parse(link, self.test)
@@ -130,6 +137,8 @@ class Mapper():
                 yield 'zmsg__error', (msg, 1)
                 continue
 
+            yield 'process', 'process'
+
             try: # to process the page information
                 output = brain.analyze(page, link, robots_txt,
                                        external=external)
@@ -141,6 +150,8 @@ class Mapper():
                        '- Exception args: {}').format(link, type(e), e)
                 yield 'zmsg__error', (msg, 1)
                 continue
+
+            yield 'output', output
 
             try: # to emit the information return by Mr. Feynman 
                 for put in output:
@@ -361,7 +372,7 @@ def _set_key_expiration(r, redis_keys):
 ###############################################################################
 if __name__ == "__main__":
     import dumbo
-    dumbo.run(Mapper, Reducer, combiner=Reducer)
+    dumbo.run(Mapper)
     
     
 
