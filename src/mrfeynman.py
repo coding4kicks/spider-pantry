@@ -134,11 +134,14 @@ class Brain(object):
                 results = selector(doc)
                 value = ""
                 for result in results:
-                    text = result.text
-                    tail = result.tail
-                    if tail:
-                        text = text + " " + tail if text else tail
-                    value = value + text
+                    if 'property' in instr:
+                      value = value + " " + result.get(instr['property'])
+                    else:
+                        text = result.text
+                        tail = result.tail
+                        if tail:
+                            text = text + " " + tail if text else tail
+                        value = value + " " + text
                 final_results[key] = value
             mapper_output.append((self.passed_url, final_results))
 

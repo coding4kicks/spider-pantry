@@ -8,6 +8,10 @@
           {
             "label":"second_para",
             "selector":"p.cnn_storypgraph2"
+          },
+          {
+            "label":"third_para",
+            "selector":"p.cnn_storypgraph3"
           }
         ]
       }

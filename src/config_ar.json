@@ -1,0 +1,26 @@
+{
+  "crawl_id": "all_recipes",
+  "url_instr": {
+    "http://allrecipes.com/Recipe/Tex-Mex-Burger-with-Cajun-Mayo/Detail.aspx": {
+      "url_filters": ["Recipe"],
+      "filter_instr": {
+        "Recipe": [
+          {
+            "label":"title",
+            "selector":"h1#itemTitle"
+          },
+          {
+            "label":"ingredients",
+            "selector":"span.ingredient-name"
+          },
+          {
+            "label":"rating",
+            "selector":"div.rating-stars meta",
+            "property":"content"
+          }
+        ]
+      }
+    }
+  }
+}
+
