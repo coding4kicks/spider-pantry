@@ -126,7 +126,7 @@ class Mapper():
                 # this error.
                 msg = ('Unable to download and parse: {} - Exception: {} '
                        '- Exception args: {}').format(link, type(e), e)
-                yield 'zmsg__error', (msg, 1)
+                #yield 'zmsg__error', (msg, 1)
                 continue
 
             no_emit = False #assume want to emit
