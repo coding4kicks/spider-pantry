@@ -27,10 +27,10 @@ def new(type="develop"):
         cmd = "starcluster start -c micro-deploy spiderdeploy"
         cluster_name = 'spiderdeploy'
         nodes = 10;
-    #p = subprocess.call(cmd, shell=True)
-    #if p != 0:
-    #    print "Starcluster failed to start."
-    #    sys.exit(1)
+    p = subprocess.call(cmd, shell=True)
+    if p != 0:
+        print "Starcluster failed to start."
+        sys.exit(1)
 
     # Create list of nodes
     instance_list = []
@@ -70,8 +70,6 @@ def init_config(instance_type=None, instance=None, cluster_name='spiderdev'):
             'coding4kicks/spider-pantry.git /home/spideradmin/spiderengine'
             ]
     for cmd in cmd_list:
-        print 'cluster name'
-        print cluster_name
         if instance_type == 'master':
             full_cmd = 'starcluster sshmaster ' + cluster_name + " '" + cmd + "'"
         elif instance_type == 'node':
