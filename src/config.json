@@ -4,7 +4,12 @@
     "http://www.cnn.com/2013/11/11/world/asia/typhoon-haiyan/index.html": {
       "url_filters": ["world"],
       "filter_instr": {
-        "world": "world_instr"
+        "world": [
+          {
+            "label":"world_instr",
+            "selector":"p.cnn_storypgraph2"
+          }
+        ]
       }
     }
   }

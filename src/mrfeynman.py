@@ -123,7 +123,23 @@ class Brain(object):
         external_bit = 'e' if external else 'i' # external or internal page
         key_total = '%s%s_%s' % (self.label['total_count'],
                                  external_bit, "total") 
-         
+
+        mapper_output.append(('filter in mrf', filter_instr)) 
+
+        if filter_instr:
+            for instr in filter_instr:
+                selector = lxml.cssselect.CSSSelector(instr['selector'])
+                key = instr['label']
+                #result = selector(doc)[0]
+                #text = result.text
+                #tail = result.tail
+                #if tail:
+                #  text = text + " " + tail if text else tail
+                #value = text
+                mapper_output.append(('results', 'results'))
+                mapper_output.append(('key', key))
+                mapper_output.append(('filter instr', instr))
+
         for element in doc.iter(): # Iterate once through the entire document
             
             try:  # Grab tag name and text (+ tail text)   

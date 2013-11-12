@@ -135,6 +135,7 @@ class Mapper():
                 continue
 
             no_emit = False #assume want to emit
+            filter_instr = None
             # if url_filters and filter not in link => don't emit
             if url_filters:
                 no_emit = True
