@@ -135,13 +135,13 @@ class Brain(object):
                 value = ""
                 for result in results:
                     if 'property' in instr:
-                      value = value + " " + result.get(instr['property']).strip()
+                      value = value + "; " + result.get(instr['property']).strip()
                     else:
                         text = result.text
                         tail = result.tail
                         if tail:
-                            text = text + " " + tail if text else tail
-                        value = value + " " + text.strip()
+                            text = text + "; " + tail if text else tail
+                        value = value + "; " + text.strip()
                 final_results[key] = value
             mapper_output.append((page_link, final_results))
 
