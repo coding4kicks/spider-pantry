@@ -13,6 +13,9 @@ import subprocess
 # and spiderdepot is 1 level below parallelspider.
 path = os.path.realpath(__file__).partition('depot')[0]
 
+# Install failed on cloning: directory alread exists and not empty
+# so didn't make it to installing redis
+
 @fab.task
 def new(type="develop"):
     """Start a spider engine from scratch, not an AMI."""
@@ -26,7 +29,7 @@ def new(type="develop"):
     if type == "deploy":
         cmd = "starcluster start -c micro-deploy spiderdeploy"
         cluster_name = 'spiderdeploy'
-        nodes = 10;
+        nodes = 20;
     p = subprocess.call(cmd, shell=True)
     if p != 0:
         print "Starcluster failed to start."
@@ -67,13 +70,13 @@ def init_config(instance_type=None, instance=None, cluster_name='spiderdev'):
             'sudo pip install redis',
             'sudo pip install boto',
             'git clone https://coding4kicks:\!6Graham9@github.com/' + \
-            'coding4kicks/spider-pantry.git /home/spideradmin/spiderengine'
+            'coding4kicks/spider-pantry.git /home/spideradmin/spiderengine/spiderpantry'
             ]
     for cmd in cmd_list:
         if instance_type == 'master':
             full_cmd = 'starcluster sshmaster ' + cluster_name + " '" + cmd + "'"
         elif instance_type == 'node':
-            full_cmd = 'starcluster sshnode ' + cluster_name + " node001 '" + cmd + "'"
+            full_cmd = 'starcluster sshnode ' + cluster_name + " " + instance + " '" + cmd + "'"
         else:
             print('Error: Unknown Instance Type')
             sys.exit(1)
