@@ -14,6 +14,7 @@
 """
 
 import copy
+import json
 
 import lxml.cssselect
 
@@ -143,7 +144,8 @@ class Brain(object):
                             text = text + "; " + tail if text else tail
                         value = value + "; " + text.strip()
                 final_results[key] = value
-            mapper_output.append((page_link, final_results))
+            json_out = json.dumps(final_results)
+            mapper_output.append((page_link, json_out))
 
         for element in doc.iter(): # Iterate once through the entire document
             
