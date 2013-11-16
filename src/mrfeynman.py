@@ -141,7 +141,7 @@ class Brain(object):
                         text = result.text
                         tail = result.tail
                         if tail:
-                            text = text + "; " + tail if text else tail
+                            text = text + " " + tail if text else tail
                         value = value + "; " + text.strip()
                 final_results[key] = value
             json_out = json.dumps(final_results)
@@ -604,8 +604,22 @@ def process_links(links, site_url, site_domain, scheme,
         # Custom link filtering for All Recipes
         link = link.split('?')[0] # Don't worry about query
 
-        if 'video' in link: # Don't follow videos
+        if ('Video' in link or
+           'video' in link or
+           'Tools' in link or 
+           'Photo' in link or
+           'photo' in link or
+           'Reviews' in link or
+           'help' in link or
+           '/My/' in link or
+           'photo-gallery' in link): # Don't follow these links
             continue
+
+        if '/recipe/' in link:
+            link = link.replace('/recipe/', '/Recipe/')
+
+        if 'kitchenview' in link:
+            link = link.replace('kitchenview', 'Detail')
         
         # if a paths to follow given, break if not in url
         follow = True
@@ -675,8 +689,11 @@ def decode(site_url):
         
     scheme, delimeter, domain_with_path = site_url.partition("//") 
     domain = domain_with_path.partition("/")[0]
-    # Strip out host if www. so can traverse subdomains
+    # Strip out host if www. so can traverse subdomains ???
     site_domain = domain.replace("www.", "")
+    # Add back leading and trailing slash so don't go to subdomains.
+    # want to avoid mobile mb.site.com or international ar.site.com
+    site_domain = '/' + site_domain + '/'
     # Add back scheme to domain for url
     site_url = scheme + "//" + domain
 
