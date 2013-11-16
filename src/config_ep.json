@@ -1,0 +1,31 @@
+{
+  "crawl_id": "epicurious",
+  "url_instr": {
+    "http://www.epicurious.com/": {
+      "url_filters": ["recipes"],
+      "filter_instr": {
+        "recipes": [
+          {
+            "label":"title",
+            "selector":"h1.fn"
+          },
+          {
+            "label":"ingredients",
+            "selector":"li.ingredient"
+          }
+          {
+            "label":"rating",
+            "selector":"span.rating span.average span.value-title",
+            "property": "title"
+          },
+          {
+            "label":"photo",
+            "selector":"span#recipe_image img",
+            "property":"src"
+          }
+        ]
+      }
+    }
+  }
+}
+

@@ -600,6 +600,12 @@ def process_links(links, site_url, site_domain, scheme,
 
         link = link_tuple[0]
         element = link_tuple[1]
+
+        # Custom link filtering for All Recipes
+        link = link.split('?')[0] # Don't worry about query
+
+        if 'video' in link: # Don't follow videos
+            continue
         
         # if a paths to follow given, break if not in url
         follow = True

@@ -1,0 +1,30 @@
+{
+  "crawl_id": "food_network",
+  "url_instr": {
+    "http://www.foodnetwork.com/": {
+      "url_filters": ["recipes"],
+      "filter_instr": {
+        "recipes": [
+          {
+            "label":"title",
+            "selector":"h1.fn_name"
+          },
+          {
+            "label":"ingredients",
+            "selector":"ul.kv-ingred-list1 li"
+          }
+          {
+            "label":"rating",
+            "selector":"div.rating-box span span"
+          },
+          {
+            "label":"photo",
+            "selector":"img#recipe-player-th",
+            "property":"src"
+          }
+        ]
+      }
+    }
+  }
+}
+
