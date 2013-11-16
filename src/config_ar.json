@@ -2,7 +2,7 @@
   "crawl_id": "all_recipes",
   "url_instr": {
     "http://allrecipes.com/": {
-      "url_filters": ["Recipe"],
+      "url_filters": ["/Recipe/"],
       "filter_instr": {
         "/Recipe/": [
           {
