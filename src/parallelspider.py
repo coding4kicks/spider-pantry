@@ -135,7 +135,7 @@ class Mapper():
             if url_filters:
                 no_emit = True
                 for filtr in url_filters:
-                    if filtr in link:
+                    if filtr in link and 'likethis' not in link:
                         no_emit = False
                         filter_instr = url_instr['filter_instr'][filtr]
 
