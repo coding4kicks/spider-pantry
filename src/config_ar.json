@@ -4,7 +4,7 @@
     "http://allrecipes.com/": {
       "url_filters": ["Recipe"],
       "filter_instr": {
-        "Recipe": [
+        "/Recipe/": [
           {
             "label":"title",
             "selector":"h1#itemTitle"

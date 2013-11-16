@@ -610,6 +610,7 @@ def process_links(links, site_url, site_domain, scheme,
            'Photo' in link or
            'photo' in link or
            'Reviews' in link or
+           'reviews' in link or
            'help' in link or
            '/My/' in link or
            'photo-gallery' in link): # Don't follow these links
